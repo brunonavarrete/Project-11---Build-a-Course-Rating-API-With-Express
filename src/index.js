@@ -55,6 +55,14 @@ app.use('/', express.static('public'));
 app.use('/api/users', userRoutes);
 app.use('/api/courses', courseRoutes);
 
+
+app.use(function(req, res, next) {
+  if(res.statusCode = 204){
+    console.log(res.statusCode + ' - No content');
+    res.end();
+  }
+});
+
 // catch 404 and forward to global error handler
 app.use(function(req, res, next) {
   var err = new Error('File Not Found');

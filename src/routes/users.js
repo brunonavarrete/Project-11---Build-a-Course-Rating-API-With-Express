@@ -24,6 +24,7 @@ var express = require('express'),
 						err.status = 400;
 						return next(err);
 					}
+					res.status(204);
 					res.header('Location','/');
 					next();
 				});
