@@ -20,17 +20,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // db connection
-mongoose.connect('mongodb://localhost:27017/course_ranking_api');
+mongoose.connect('mongodb://localhost:27017/course_ranking_api',{ useMongoClient: true });
+mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 
 db.once('open',function(){
 	console.log('Connection opened');
-  seeder.seed(data).then(function(dbData) {
-    // The database objects are stored in dbData
+  seeder.seed(data)
+  .then(function(dbData) {
     console.log('data seeded :) ');
-  }).catch(function(err) {
-      // handle error
-      console.error(err);
+  })
+  .catch(function(err) {
+    console.error(err);
   });
 });
 
@@ -73,8 +74,8 @@ app.use(function(req, res, next) {
 // Express's global error handler
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  var fullError = err.status + ': ' + err.message;
-  res.send(fullError);
+  console.log(err);
+  res.send(err);
 });
 
 // start listening on our port
